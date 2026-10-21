@@ -6,6 +6,22 @@ In Development
 
 - Keep the cache fingerprint of functions without retrievable source stable
   across processes when their code contains a constant set membership test.
+  https://github.com/joblib/joblib/pull/1875
+
+- Fix the ``ensure_native_byte_order`` parameter of ``numpy_pickle.load``
+  to apply correctly to structured NumPy arrays.
+  https://github.com/joblib/joblib/pull/1895
+
+- Fix ``MemorizedFunc.call`` to register the function code so subsequent regular
+  calls can reuse its cached result.
+  https://github.com/joblib/joblib/pull/1897
+
+- ``FileSystemStoreBackend`` (and hence ``Memory``) now stores its items using the format
+  "abc/defghijklmnopqrstuvwxyzabcdef/output.pkl" instead of
+  "abcdefghijklmnopqrstuvwxyzabcdef/output.pkl" in order to limit the number
+  of inodes inside the root cache directory. Migrating existing cache to this more
+  efficient behavior with ``Memory(...).update_cache_tree()``
+  https://github.com/joblib/joblib/pull/1781
 
 - Fix ``Memory.cache(..., mmap_mode=..., verbose=...)`` to now uses its parameters
   mmap_mode and verbose instead of using the values used at Memory creation time.
@@ -43,9 +59,17 @@ In Development
   details.
   https://github.com/joblib/joblib/pull/1834
 
+- Fix a thread-safety issue in ``joblib.memory.Memory``.
+  https://github.com/joblib/joblib/pull/1892
+
 - Fix a number of thread-safety issues when using reusable process executors
   from multiple threads.
   https://github.com/joblib/joblib/pull/1834
+
+- Dropped support for Python 3.10, which is now end-of-life. NumPy and
+  Distributed minimum supported versions were also increased to the oldest
+  versions that support 3.11.
+  https://github.com/joblib/joblib/pull/1888
 
 
 Release 1.6.0 - 2026/08/31
